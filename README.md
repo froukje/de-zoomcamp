@@ -6,7 +6,7 @@ This repository contains notes and exercises I made taking the Data Engineer Zoo
 
 Data used: [Yellow Taxi Data New York](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
 
-The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv`````
+The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv```
 
 ### Week 1
 * Postgres
