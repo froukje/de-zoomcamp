@@ -289,4 +289,38 @@ Add permissions for your service account
 * In a real production these permissions would be restricted to a particular bucket
 * In production the roles will be customized
 
+# Creating GCP Structure with Terraform
 
+* How to define resources in terraform?
+	* main.tf
+	* to start, you need a terraform resource (terraform {}), which contains:
+		* terraform version
+		* backend, in this example "local", in prduction you use your cloud environment
+		* required prividers, this is optional (think of it as in Python importing a library)
+	* provider section
+		* terraform relies on pluggins called providers, to interact with cloud providers
+		* adds a set of predefined resourse data sources
+	* resource
+		* contains arguments to configure the resource
+	* the main.tf file contains variables from the variables.tf file, written as "var."
+		* variables.tf
+			* contains "locals", which are constants
+			* variables are generally passed at run-time
+			* variables that contain "default" are optional run-time variables
+			* variables without "default" are mandantory
+* Terraform has only few execution commands:
+	1. terraform init: initialize and install
+	2. terraform plan: Match changes against the prviouos state (if you e.g. add another resource)
+	3. terraform apply: Apply changes to the cloud
+	4. terraform destroy: Remove your stack from the cloud (usually it is advisable to destroy your resourses, until you need them next time)
+		* The next time you use "terraform apply" you will have back your state
+		* This is a great advantage of using terraform, which has a state file
+* After running "terraform init" some more files are in the folder
+	* .terraform: like any package manager, manages all packages
+	* .terraform-version
+	* .terraform-lock.hcl 
+* When running "terraform plan" you need to type the project id, because this is a variable where no default was set
+* Then two new resources are created
+	* BigQuery
+	* Bucket
+* Then in "terraform apply" you have to confirm the changes and then the new resources are created 
