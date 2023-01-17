@@ -12,7 +12,7 @@
 * Free and open-source relational database management system (RDBMS) emphasizing extensibility and SQL compliance
 
 **Docker Image**
-* Snapshot of the container*
+* Snapshot of the container
 
 **Spark**
 
@@ -27,15 +27,15 @@ Serverless computing is a cloud computing execution model in which the cloud pro
 
 ![container_example](container_example.png "Container Example Illustration")
 
-* You can have multiple container using postgres and the databases in each container do not know from each other, will not interfere with each other*
+* You can have multiple container using postgres and the databases in each container do not know from each other, will not interfere with each other
 * You don't need to install the software in your host computer, but only docker
 * Docker helps to make your work distributionable, you can run the docker image in a different environment (e.g. in Google Cloud (kubernetes), AWS Batch)
 
 ## Why should we care about Docker?
 * Reproducibality
 * Local Experiments
-* Integration tests (CI/CD, use e.g. github actions)
-* Running pipelines on the cloud (AWS Batch, Kubernetes jobs)*
+* Integration tests (CI/CD, use e.g. github actions, not covered in this course)
+* Running pipelines on the cloud (AWS Batch, Kubernetes jobs)
 * Spark (for defining data pipelines)
 * Serverless (usefull for processing data, one record at a time; AWS Lamda, Google functions)
 
@@ -45,42 +45,59 @@ Serverless computing is a cloud computing execution model in which the cloud pro
     * runs the image ubuntu in an interactive mode and executes the bash
 * docker run -it python:3.9
     * starts the image python 3.9
-    * can be used for python*
+    * can be used for python
 * docker run -it --entrypoint=bash python:3.9
     * same as previous, but now starts with the bash
     * can e.g. be used to install packages
-    * Problem: When we install a package here and exit the conatainer, the next time we run it, the package will not be installed*
+    * we can then start python with the command "python"
+    * Problem: When we install a package here and exit the container, the next time we run it, the package will not be installed
 * In the Dockerfile we can specify all the things we want to have in our container
 * Build the image from a Dockerfile using ```docker build```:
     * ```docker build -t test:pandas .```
     * the ```.``` means that the container should be build in this folder
 * After building the image you can run it:
     * ```docker run -it test:pandas```
+* To run the example pipeline with the "day" argument:
+   * ```docker run -it test:pandas 2023-01-13```
+   * what comes after the image is passed as an argument
 
 ## Practice SQL with postgres
+
 * run postgres in Docker
 * put some data to postgres with a python script
-* Use officia docker image for postgres
-	* postgres needs some configuretions:
+* Use official docker image for postgres
+	* postgres needs some configurations:
 	```docker run -it \
            -e POSTGRES_USER="root" \     # environmental configurations
            -e POSTGRES_PASSWORD="root" \
-           -e POSTGRES_DB="ny_taxi \     # name of the database
-           -v ny_taxi_postgres_data:"./ny_taxi_postgres_data:/var/lib/postgresql/data:rw" # moiunt a volume: possibility to map a folder we have on the host machine to our container
+           -e POSTGRES_DB="ny_taxi" \     # name of the database
+           -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data:rw # mount a volume: possibility to map a folder we have on the host machine to our container
            -p 5432:5432 \  # specify the port, map a port on our host machine to a port of the conatiner
                            # For databases we will send SQL request and the database needs to reply
          postgres:13```
+* Using the volume allows us to preserve the changes in our database, i.e. they are not deleted, when we stop the container
 * After running the container postgres constructed some files in "ny_taxi_postgres_data"
 * We can start using ist now!
 * pipcli is used as a client
 * Using pgcli to connect to postgres
 	```pgcli -h localhost -p 5432 -U root -d ny_taxi```
 	* -p: port, -U: user, -d: database
+* Stop the postgres service: ```sudo service postgresql stop```
+* To test the connection type ```\dt``` int the terminal. This won't show any tables, since our database is still empty.
 
 ## Have a look at the Dataset
-* Use python to read the dataset and upload it as databse - see notebook upload-data.ipynb
+* Download the data and upload it to the database.
+    * Data source: Data source: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+* Use python to read the dataset and upload it as databse
+    * Data upload: upload-data.ipynb / upload-data-parquet.ipynp (for parquet data)
 * Use ```SELECT count(1) FROM yellow_taxi_data``` to check the length of the databse
 * Use ```\dt``` to get an overview about the databeses that we have
+* After uploading the data ```\dt``` shows us the created table
+* More exploration in pgcli, e.g.
+    * ```SELECT max(tpep_pickup_datetime), min(tpep_pickup_datetime), max(total_amount) FROM yellow_taxi_data```
+
+## Use a Jupyter Notebook to check the connection to the database
+* As an alternative to pgcli, we can use a jupyter notebook to check the connection to the database (check.conection.ipynb)
 
 ## Use pgAdmin
 * pgcli is a commant line interface for a quick look at the data, but not very comfortable
@@ -204,7 +221,7 @@ services:
     ports:
       - "8080:80"
 ```
-* The two conatiner are then automatically part of one network
+* The two containers are then automatically part of one network
 * Run ```docker-compose up``` in the terminal
 * Run ```docker-compose down``` to end it
 * It can be run in detached mode, i.e. after execution, we can use the terminal : ```docker-compose up -d```
