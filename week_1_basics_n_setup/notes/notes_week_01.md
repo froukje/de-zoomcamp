@@ -226,6 +226,13 @@ services:
 * Run ```docker-compose down``` to end it
 * It can be run in detached mode, i.e. after execution, we can use the terminal : ```docker-compose up -d```
 
+## SQL
+* data: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+* upload the data to postgres: upload-taxi-zone-data.ipynb
+* call the table "zones"
+* When running docker-compose, we can select the "Query" tool and use SQL queries to access the data, e.g.:
+```SELECT * FROM zones; 
+
 # Terraform
 * What is Terraform?
 	* open source
