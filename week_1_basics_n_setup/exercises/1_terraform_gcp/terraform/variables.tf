@@ -3,7 +3,7 @@ locals {
 }
 
 variable "project" {
-	description = "Your GCP Project ID"	
+	description = "stoked-mode-375206"	
 }
 
 variable "region" {

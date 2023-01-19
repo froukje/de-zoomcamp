@@ -235,14 +235,14 @@ services:
 
 # Terraform
 * What is Terraform?
-	* open source
-	* used for provisioning infrastructure resources
+	* open source by HashiCorp
+	* used for provisioning infrastructure (e.g. virtual machines, storage, networking resources, ...) resources
 	* Provides a consistent CLI workflow to manage hundreds of cloud services  
-	* Supports DevOps best practices
+	* Supports DevOps best practices, with IaC approach
 	* Manages configuration files in source control to maintain an ideal provisioning state for testing and production environments
 * What is IaC
 	* Infrastructure-as-code
-	* A framework, that sllows you to build, change, and manage your infrastructure in a safe, consistent and repeatable way by defining resource configurations that you can version, reuse, and share
+	* A framework, that allows you to build, change, and manage your infrastructure in a safe, consistent and repeatable way by defining resource configurations that you can version, reuse, and share
 	* As a git version control, but for infrastructure
 * Some Advantages
 	* Infrastructure lifecycle management
@@ -291,7 +291,7 @@ For this course the free version (up to 300 Euro credis) is used.
 	gcloud auth application-default login
 	```
 
-	* This is neede, so that Google knows that is is your key
+	* This is need, so that Google knows that is is your key
 	* This will open the browser to authenticate
 
 When this is done the local computer can interact with the cloud!
@@ -312,6 +312,9 @@ Add permissions for your service account
 
 * In a real production these permissions would be restricted to a particular bucket
 * In production the roles will be customized
+* enable API to interact between local environment and the cloud environment
+	* https://console.cloud.google.com/apis/library/iam.googleapis.com
+	* https://console.cloud.google.com/apis/library/iamcredentials.googleapis.com
 
 # Creating GCP Structure with Terraform
 
@@ -344,7 +347,9 @@ Add permissions for your service account
 	* .terraform-version
 	* .terraform-lock.hcl 
 * When running "terraform plan" you need to type the project id, because this is a variable where no default was set
+	* ```terraform plan -var="project=<project-id>"```
 * Then two new resources are created
 	* BigQuery
 	* Bucket
-* Then in "terraform apply" you have to confirm the changes and then the new resources are created 
+* Then in "terraform apply" you have to confirm the changes and then the new resources are created
+	* To confirm: 1. type the project id,, 2. type "yes" 
