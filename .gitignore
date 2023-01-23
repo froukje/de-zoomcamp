@@ -1,6 +1,6 @@
 data/*
-week_1_basics_n_setup/exercises/2_docker_sql/docker_postgres/ny_taxi_postgres_data/*
-week_1_basics_n_setup/exercises/1_terraform_gcp/terraform/.terraform.lock.hcl
-week_1_basics_n_setup/exercises/1_terraform_gcp/terraform/.terraform/
-week_1_basics_n_setup/exercises/1_terraform_gcp/terraform/terraform.tfstate
-week_1_basics_n_setup/exercises/1_terraform_gcp/terraform/terraform.tfstate.backup
+week_1_basics_n_setup/videos/2_docker_sql/docker_postgres/ny_taxi_postgres_data/*
+week_1_basics_n_setup/videos/1_terraform_gcp/terraform/.terraform.lock.hcl
+week_1_basics_n_setup/videos/1_terraform_gcp/terraform/.terraform/
+week_1_basics_n_setup/videos/1_terraform_gcp/terraform/terraform.tfstate
+week_1_basics_n_setup/videos/1_terraform_gcp/terraform/terraform.tfstate.backup
