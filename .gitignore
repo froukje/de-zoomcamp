@@ -4,3 +4,7 @@ week_1_basics_n_setup/videos/1_terraform_gcp/terraform/.terraform.lock.hcl
 week_1_basics_n_setup/videos/1_terraform_gcp/terraform/.terraform/
 week_1_basics_n_setup/videos/1_terraform_gcp/terraform/terraform.tfstate
 week_1_basics_n_setup/videos/1_terraform_gcp/terraform/terraform.tfstate.backup
+week_1_basics_n_setup/homework/.terraform.lock.hcl
+week_1_basics_n_setup/homework/.terraform/*
+week_1_basics_n_setup/homework/terraform.tfstate
+week_1_basics_n_setup/homework/terraform.tfstate.backup
