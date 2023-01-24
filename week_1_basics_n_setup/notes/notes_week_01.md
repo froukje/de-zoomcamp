@@ -231,7 +231,7 @@ services:
 * upload the data to postgres: upload-taxi-zone-data.ipynb
 * call the table "zones"
 * When running docker-compose, we can select the "Query" tool and use SQL queries to access the data, e.g.:
-```SELECT * FROM zones; 
+```SELECT * FROM zones;``` 
 
 # Terraform
 * What is Terraform?
