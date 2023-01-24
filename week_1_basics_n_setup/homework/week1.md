@@ -135,7 +135,7 @@ GROUP BY passenger_count
 pd.read_sql(query, con=engine)
 ```
 
-##Question 6. Largest tip
+## Question 6. Largest tip
 For the passengers picked up in the Astoria Zone which was the drop off zone that had the largest tip? We want the name of the zone, not the id.
 
 Note: it's not a typo, it's ```tip``` , not ```trip```
@@ -145,3 +145,27 @@ Note: it's not a typo, it's ```tip``` , not ```trip```
 * South Ozone Park
 * Long Island City/Queens Plaza
 
+**Answer:** Long Island City/Queens Plaza
+
+One possible SQL query to achieve this is:
+
+```
+query = """
+SELECT 
+lpep_pickup_datetime,
+lpep_dropoff_datetime,
+tip_amount,
+zpu."Zone" AS "pickup_zone",
+zdo."Zone" AS "dropoff_zone"
+FROM 
+green_taxi_data_2019 t,
+zones zpu,
+zones zdo
+WHERE
+t."PULocationID" = zpu."LocationID" AND
+t."DOLocationID" = zdo."LocationID" AND
+zpu."Zone" = 'Astoria'
+ORDER BY tip_amount DESC
+"""
+pd.read_sql(query, con=engine)
+```
