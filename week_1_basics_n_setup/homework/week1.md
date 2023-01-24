@@ -113,7 +113,7 @@ pd.read_sql(query, con=engine)
 
 Then the first row is the largest trip distance. 
 
-##Question 5. The number of passengers
+## Question 5. The number of passengers
 In 2019-01-01 how many trips had 2 and 3 passengers?
 
 * 2: 1282 ; 3: 266
