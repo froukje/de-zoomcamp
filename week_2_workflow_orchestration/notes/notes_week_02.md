@@ -106,3 +106,51 @@
 		```from prefect_sqlalchemy import SqlAlchemyConnector```
 		* adapt the script accordingly to load the data
 		* blocks can also be added using code (see documentation)
+
+## ETL with GCP & Prefect
+	
+* Start prefect webui: ```prefect orion start```
+* Create folder "O2_gcp". We will work in this folder now
+* Create file ```etl_web_to_gcs.py```
+* Create a main flow-function, that will execute several tasks
+	* this will do the following: take data from the web, clean the data, save as .parquet in our data lake in Google Cloud Storage
+	* task fetch: reads the data from the web and stores it as pandas dataframe
+		* set retries to 3. In case something fails the task will retry 3 times to execute.
+	  	* this can be tested by uncommenting the ```if```-statement
+	* task clean: cleans the data by fixing some type issues of the downloaded data
+	* task write_local: writes the cleaned data to a local folder
+	* task write_gcs: write the local parquet file to Google Cloud Storage
+* Create a Google Cloud Storage Bucket
+	* Login to Google Cloud and click on "console"
+	* On the left-hand menu choose "Cloud Storage" -> "CREATE"
+	* Choose a name and leave the rest on default
+* Go to prefect webui and choose "Block"
+	* with aBlock we can re-use configurations in a secure way
+	* register the gcp blocks we need: 
+		* in the terminal: ```prefect block register -m prefect_gcp```
+		* the output looks like this:
+		![prefect_gcp_blocks.png](prefect_gcp_blocks.png)	
+	* In webui add "GCS Bucket"
+	![gcs_bucket.png](gcs_bucket.png)
+	* give it a name and fill in the name of the created Bucket on GCP
+	* Add credentials (by clicking on "Add+" below Gcp Credentials) (thisis optional)
+	* this directs us to create a new GCP credentials Block
+		* give it a name
+		* to get the service account, go to GCP, on the left-hand side menu select "IAM & Admin" -> "Service Accounts"
+		* press "CREATE SERVICE ACCOUNT"
+		* give it a name
+		* click "CREATE AND CONTINUE"
+		* select a role: "BigQuery Admin", "Storage Admin"
+		* click "done"
+		* now we need to give it keys: click on "manage keys", "CREATE A NEW KEY" in .json format
+		* the content of this file can be copied to the prefect block
+	* then the credentials block can be added
+	* the GCS Bucket block can now be created
+	* this gives us a code snippet, which we can use:
+	```from prefect_gcp.cloud_storage import GcsBucket
+gcp_cloud_storage_bucket_block = GcsBucket.load("zoom-gcs")```
+* Now we can run the script and the data is uploaded
+
+## From Google Cload Storage to Big Query
+
+* Now we want to move our data to the data warehouse 
