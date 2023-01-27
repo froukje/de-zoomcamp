@@ -11,3 +11,4 @@ week_1_basics_n_setup/homework/terraform.tfstate.backup
 week_1_basics_n_setup/homework/.ipynb_checkpoints/*
 week_2_workflow_orchestration/videos/01_start/yellow_tripdata_2021-01.csv.gz
 week_2_workflow_orchestration/videos/O2_gcp/data/*
+week_2_workflow_orchestration/videos/02_gcp/data/yellow/yellow_tripdata_2021-01.parquet
