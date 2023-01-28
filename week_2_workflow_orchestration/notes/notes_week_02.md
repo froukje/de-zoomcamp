@@ -153,4 +153,22 @@ gcp_cloud_storage_bucket_block = GcsBucket.load("zoom-gcs")```
 
 ## From Google Cload Storage to Big Query
 
-* Now we want to move our data to the data warehouse 
+* Now we want to move our data to the data warehouse: file: etl_gcs_to_bg.py
+* import additionally GcpCredentials, which we will use to write data to Big Query 
+* task extract_from_gcs: downloads data from GCS to a local folder
+	* ```get_directory``` Downloads a directory from a given remote path to a local directory.
+* task transform: makes some data transformations
+* task write_bq: write data to Big Query
+	* Setup Big Query:
+		* In Google Cloud, on the left hand menu select "Big Query"
+		* Select "ADD DATA", choose the data source. Since we have data on Google Cloud Storage, we choose this.
+		* "Select file from GCS bucket" -> browse to yellow taxi data
+		* create a "Dataset" (give it a name, e.g. "dezoomcamp" and create it)
+		* give the "Table" a name
+		* leave the rest as it is and create the table
+		* if you go to the table you can query things directly there by going to "QUERY"
+	 	* delete all data with ```DELETE FROM `stoked-mode-375206.dezoomcamp.rides` WHERE true```, to simulate that we write it with our python script
+	* we use ```df.to_gbq``` to write the data to big query
+	* the credentials we give there, to access it we already created in a prefect block. We can use the code snipped given in the prefect ui.
+	```from prefect_gcp import GcpCredentials
+gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")```
