@@ -8,7 +8,7 @@ Data used: [Yellow Taxi Data New York](https://www1.nyc.gov/site/tlc/about/tlc-t
 
 The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.csv```
 
-### Week 1
+### Week 1: Introduction & Prerequisites 
 * Postgres
 	* Load the data into a database
 	* Use pgcli to connect to Postgres
@@ -23,3 +23,25 @@ The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+
 	* Use one yaml-file to start pgAdmin and Postgres in the same network
 * Introduction to Terraform
 * Introduction to Google Cloud
+* Homework
+
+### Week 2: Workflow Orchestration
+
+* Data Lake
+* Workflow orchestration
+* Introduction to Prefect
+* ETL with GCP & Prefect
+	* store data in GCS and Big Query
+* Parametrizing workflows
+* Prefect Cloud and additional resources
+* Homework
+
+### Week 3: Data Warehouse
+
+### Week 4: Analytics Engineering
+
+### Week 5: Batch processing
+
+### Week 6: Streaming
+
+### Week 7, 8 & 9: Project
