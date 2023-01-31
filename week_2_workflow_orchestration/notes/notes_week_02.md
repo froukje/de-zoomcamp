@@ -189,8 +189,8 @@ gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")```
 * Two ways to build a deployment:
 	1. Through cli (-> now)
 	2. Using Python (-> later) 
-* In the terminal run ```prefect deployment build <filename>:<entrypoint_to_flow> -n "Parameterized ETL", in this example:
-```prefect deployment build parameterized_flow.py:etl_parent_flow -n "Parameterized ETL"
+* In the terminal run ```prefect deployment build <filename>:<entrypoint_to_flow> -n "Parameterized ETL"```, in this example:
+```prefect deployment build parameterized_flow.py:etl_parent_flow -n "Parameterized ETL"```
 * This builds the deployment and creates a ```<entrypoint_to_flow>-deploymentyaml (```etl_parent_flow-deployment.yaml```)-file in the same directory
 * This is all the metadata the deployment needs to know
 	* There we can add our parameters: ```parameters: { color: "yellow", "months": [1,2,3], "year": 2021 }```
