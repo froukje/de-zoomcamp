@@ -172,3 +172,40 @@ gcp_cloud_storage_bucket_block = GcsBucket.load("zoom-gcs")```
 	* the credentials we give there, to access it we already created in a prefect block. We can use the code snipped given in the prefect ui.
 	```from prefect_gcp import GcpCredentials
 gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")```
+
+### Parametrizing Flow & Deployments with ETL into GCS flow
+* extend on ```01_start/ingest_data_flow.py```, save it as ```parameterized_flow.py```
+* paramterization means allowing the flow to take parameters
+* create a parent flow for the flow ```etl_web_to_gcs```, that triggers the flow several times
+* add a cache to the task ```fetch```, that ensures the task is cached for 1 day by adding ```cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1)``` (this is done for not having to read the data in again, when it is in the cache)
+* run ```prefect orion start``` and run the flow: ```python3 parameterized_flow.py```, activate "SQLAlchemyConnector"
+* Until now: we have run the flows from the terminal. Now: we want to create a deployment.
+
+**Create a prefect deployment:**
+* to trigger and schedule flow runs
+* Deployment: Server side concept, that encapsulates a flow, allowing it to be scheduled and triggered via the API
+* Documentation: https://docs.prefect.io/concepts/deployments/
+![prefect_deployment.png](prefect_deployment.png)
+* Two ways to build a deployment:
+	1. Through cli (-> now)
+	2. Using Python (-> later) 
+* In the terminal run ```prefect deployment build <filename>:<entrypoint_to_flow> -n "Parameterized ETL", in this example:
+```prefect deployment build parameterized_flow.py:etl_parent_flow -n "Parameterized ETL"
+* This builds the deployment and creates a ```<entrypoint_to_flow>-deploymentyaml (```etl_parent_flow-deployment.yaml```)-file in the same directory
+* This is all the metadata the deployment needs to know
+	* There we can add our parameters: ```parameters: { color: "yellow", "months": [1,2,3], "year": 2021 }```
+* To apply the deployment: ```prefect deployment apply etl_parent_flow-deployment.yaml```
+* We now have a deployment created, this is also visible in the ui
+	* In the ui we can click on "Deployments" and then on our created deployment
+	* We can add a description and see the paramters we set
+* To start the deployment, we need an agent
+* The agent is pulling from a work queue
+	* In the ui click on "Work Queue", "default"
+	* This shows us how to start an agent from the terminal: ```prefect agent start  --work-queue "default"```
+* Then start a deployment directly by clicking on "Deployment", <name-of-the-deployment>, "RUN", "Quick run"
+
+**Set a Notification:**
+* In the ui click on "Notification", "create notification"
+* Select a state, when you want to be notified, optionally a tag can be added
+* E.g. a Slack Webhook can be created, then you will get a notification in slack
+

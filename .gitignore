@@ -12,3 +12,4 @@ week_1_basics_n_setup/homework/.ipynb_checkpoints/*
 week_2_workflow_orchestration/videos/01_start/yellow_tripdata_2021-01.csv.gz
 week_2_workflow_orchestration/videos/data/*
 week_2_workflow_orchestration/videos/data/yellow/yellow_tripdata_2021-01.parquet
+week_2_workflow_orchestration/videos/01_start/__pycache__/*
