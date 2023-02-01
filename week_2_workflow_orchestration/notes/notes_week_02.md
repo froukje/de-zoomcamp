@@ -209,3 +209,70 @@ gcp_credentials_block = GcpCredentials.load("zoom-gcp-creds")```
 * Select a state, when you want to be notified, optionally a tag can be added
 * E.g. a Slack Webhook can be created, then you will get a notification in slack
 
+**Scheduling Flows:**
+* In the ui: click on created deployment, click on "Schedule, add"
+	* Here a time interval for the schedule or a cron schedule can be added
+	* An RRule cannot be added from the ui
+	* This ascedule can be edited or removed
+* In the terminal: 
+	* when the deployment is created: ```prefect deployment build parameterized_flow.py:etl_parent_flow -n etll2 --cron "0 0 * * *"```
+	* ```prefect deployment --help``` gives all possible options
+	* when the deployment is already there: use ```set-schedule``` option
+
+**Running Flows in Docker:**
+* Until now: all locally
+* Now: store code in docker image, put in on docker hub
+* Make Dockerfile
+```
+FROM prefecthq/prefect:2.7.7-python3.9
+
+COPY docker-requirements.txt .
+
+RUN pip install -r docker-requirements.txt --trusted-host pypi.python.org --no-cache-dir
+
+COPY videos/02_gcp /opt/prefect/flows
+COPY videos/data /opt/prefect/data
+```
+* notes: 
+	* docker-requirements contains less packages than our local environment, e.g. we don't need to install prefect, because we already have it from the image
+	* this keeps the image light
+	* ```/opt/prefect/flows``` is the default folder prefect will look for flows
+* Build the image: ```docker image build -t froukje/prefect:zoom .```
+* Push it to dockerhub: ```docker image push froukje/prefect:zoom```
+* Create a Docker block, so that we can use it , when we specify our deployment
+	* In the ui: "Blocks"
+	* "Docker Container"
+		* give it a name: "zoom"
+		* put the image name: "froukje/prefect:zoom"
+		* choose ImagePullPolicy "ALWAYS"
+		* set "Auto Remove" on True (the container will be removed on completion)
+		* click "create"
+	* This gives us some lines of code:
+	```from prefect.infrastructure.docker import DockerContainer
+	
+	docker_container_block = DockerContainer.load("zoom")```
+	* A block can also be created in Python:
+	```from prefect.infrastructure.docker import DockerContainer
+	docker_block = DockerContainer(
+		image="froukje/prefect:zoom",
+		image_pull_policy="ALWAYS",
+		autoremove=True
+	)
+	
+	docker_block.save("zoom", overwrite=True")```
+
+**Make a Deployment with Python:**
+* ```videos/start_01/docker_deploy.py```
+* A deployment is created and applied using a Docker Block
+* Run ```python3 docker_deploy.py``` and the deployment is shown in the ui
+
+* Change the profile:
+	* in terminal: ```prefect profile ls``` shows all available profiles
+	* until now we have used the default profile
+	* change this to a specified API endpoint of a specific URL: ```prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"```
+	* that makes it possible that the docker container is able to interact with the orion server
+* Start an agent: ```prefect agent start -q default```
+* Start the deployment and change the parameters: ```prefect deployment run etl-parent-flow/docker-flow -p "months=[1,2]"```
+	
+**Further Infrastructure:**
+* Prefect has a (free) hosted cloud: https://app.prefect.cloud/auth/login
