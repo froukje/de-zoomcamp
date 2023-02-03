@@ -14,3 +14,4 @@ week_2_workflow_orchestration/videos/data/*
 week_2_workflow_orchestration/videos/data/yellow/yellow_tripdata_2021-01.parquet
 week_2_workflow_orchestration/videos/01_start/__pycache__/*
 week_2_workflow_orchestration/homework/data/*
+week_2_workflow_orchestration/homework/flows/__pycache__/*

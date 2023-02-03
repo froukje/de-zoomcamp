@@ -67,6 +67,11 @@ How many rows were processed by the script?
 * 88,605
 * 190,225
 
+**Answer:** 88605
+
+* create and apply the deployment: ```prefect deployment build week_2_workflow_orchestration/homework/flows/etl_web_to_gcs.py:etl_web_to_gcs -sb github/de-zoomcamp -n etl_github --apply
+``` from directors ```de-zoomcamp```
+
 ## Question 5. Email or Slack notifications
 
 It’s often helpful to be notified when something with your dataflow doesn’t work as planned. Choose one of the options below for creating email or slack notifications.
@@ -94,6 +99,8 @@ How many rows were processed by the script?
 * 728,390
 * 514,392
 
+**Answer:** 514,392
+
 ## Question 6. Secrets
 
 Prefect Secret blocks provide secure, encrypted storage in the database and obfuscation in the UI. Create a secret block in the UI that stores a fake 10-digit password to connect to a third-party service. Once you’ve created your block in the UI, how many characters are shown as asterisks (*) on the next page of the UI?
@@ -103,3 +110,6 @@ Prefect Secret blocks provide secure, encrypted storage in the database and obfu
 * 8
 * 10
 
+**Answer:** 8
+
+![secret_block.png](secret_block.png)

@@ -26,9 +26,17 @@ infrastructure:
 ###
 flow_name: etl-web-to-gcs
 manifest_path: null
-storage: null
-path: /home/frauke/de-zoomcamp/week_2_workflow_orchestration/homework/flows
-entrypoint: etl_web_to_gcs.py:etl_web_to_gcs
+storage:
+  repository: https://github.com/froukje/de-zoomcamp/tree/main/week_2_workflow_orchestration/homework/flows
+  reference: null
+  access_token: null
+  _block_document_id: e2b2ce64-b6be-4297-a5c0-3bc0550235bf
+  _block_document_name: de-zoomcamp
+  _is_anonymous: false
+  block_type_slug: github
+  _block_type_slug: github
+path: ''
+entrypoint: week_2_workflow_orchestration/homework/flows/etl_web_to_gcs.py:etl_web_to_gcs
 parameter_openapi_schema:
   title: Parameters
   type: object
