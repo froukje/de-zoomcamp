@@ -1,0 +1,51 @@
+###
+### A complete description of a Prefect Deployment for flow 'rows-processed'
+###
+name: print_homework
+description: main flow prints total bumber of rows processed
+version: aa9fa5a09548b340ba10a9e4f9e55c4c
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: rows-processed
+manifest_path: null
+storage: null
+path: /home/frauke/de-zoomcamp/week_2_workflow_orchestration/homework/flows
+entrypoint: etl_gcs_to_bq.py:rows_processed
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    months:
+      title: months
+      default:
+      - 1
+      - 2
+      position: 0
+    year:
+      title: year
+      default: 2020
+      position: 1
+    color:
+      title: color
+      default: green
+      position: 2
+  required: null
+  definitions: null
