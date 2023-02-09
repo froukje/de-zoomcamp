@@ -27,7 +27,7 @@
 * In general has different data sources
 * Can be converted into Data Marts, which can be directly accessed by users
 
-![data_warehouse.png](data_Warehouse.png)
+![data_warehouse.png](data_warehouse.png)
 
 ### BigQuery
 
