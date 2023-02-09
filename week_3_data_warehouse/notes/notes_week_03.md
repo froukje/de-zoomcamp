@@ -178,7 +178,7 @@ SELECT * FROM taxi-rides-ny.nytaxi.external_yellow_tripdata;
 -- SELECT THE COLUMNS INTERESTED FOR YOU
 SELECT passenger_count, trip_distance, PULocationID, DOLocationID, payment_type, fare_amount, tolls_amount, tip_amount
 FROM `taxi-rides-ny.nytaxi.yellow_tripdata_partitoned` WHERE fare_amount != 0;
-``
+```
 * Feature Engineering
 	* Documentation: cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-auto-preprocessing
 	* Change type of some features
