@@ -305,7 +305,7 @@ tip_amount IS NOT NULL;
 	* Create a serving directory
 		* ```mkdir -p serving_dir/tip_model/1```
 	* Copy all the data into this directory
-		* ```cp -r /tmp/model/tip_model/* serving_dir/tip_model/1``
+		* ```cp -r /tmp/model/tip_model/* serving_dir/tip_model/1```
 	* Pull tensorflow serving docker image
 		* ```docker pull tensorflow/serving``` 
 	* Run the image
