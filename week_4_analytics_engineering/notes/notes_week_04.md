@@ -120,7 +120,14 @@
 * Make a dbt-cloud account and connect to BigQuery: https://www.getdbt.com/signup/
 * Create a service account for dbt in BigQuery following this instruction: https://github.com/froukje/data-engineering-zoomcamp/blob/main/week_4_analytics_engineering/dbt_cloud_setup.md
 	* Note to add the dbt key to the github repo, go to your repo and click on settings in the top menu, not below your profile
-* After finishing the setup go to "Develop" in the dbt cloud and initialize the project by clicking the button
+* Create a new branch on github 
+* After finishing the setup go to "Develop" in the dbt cloud
+* Switch to the new branch 
+* Initialize the project by clicking the button
 * This creates several folders and files
+* Open the dbt_project.yml
+	* Change the name to e.g. "taxi_rides_ny"
+	* Change "models" to "taxi_rides_ny"
+	* Delete the last to rows "example ...", we are not using this here
 
 
