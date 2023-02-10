@@ -121,4 +121,6 @@
 * Create a service account for dbt in BigQuery following this instruction: https://github.com/froukje/data-engineering-zoomcamp/blob/main/week_4_analytics_engineering/dbt_cloud_setup.md
 	* Note to add the dbt key to the github repo, go to your repo and click on settings in the top menu, not below your profile
 * After finishing the setup go to "Develop" in the dbt cloud and initialize the project by clicking the button
-* This creates several folders and files 
+* This creates several folders and files
+
+
