@@ -38,6 +38,14 @@ The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+
 
 ### Week 3: Data Warehouse
 
+* Data Warehouse
+* BigQuery
+* Partitioning and clustering
+* BigQuery best practices
+* Internals of BigQuery
+* Integrating BigQuery with Airflow
+* BigQuery Machine Learning
+
 ### Week 4: Analytics Engineering
 
 ### Week 5: Batch processing
