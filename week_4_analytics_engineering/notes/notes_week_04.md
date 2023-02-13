@@ -108,7 +108,7 @@
 	* Running dbt models through the CLI
 	![dbt3.png](dbt3.png)
 
-## Starting a dbt projecti: BigQuery
+## Starting a dbt project: BigQuery
 * dbt provides a starter project with all the basic folders and files.
 * There are essentially two ways to use it:
 	* With the CLI
@@ -159,7 +159,8 @@
         project: taxi-rides-ny
         dataset: dbt_frauke
 	threads: 4
-	keafile: my_key_file.json```
+	keafile: my_key_file.json
+```
 * This file is stored outside of the project in the home directory: ```.dbt/profiles.yml```
 * Move to repository and initialize the repository: ```dbt init```
 * This creates a new folder, which is the project,name it e.g. "taxi_rides_ny"
