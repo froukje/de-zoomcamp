@@ -322,3 +322,41 @@ seeds:
 	* Create a new file in "models/core" called ```dim_zones.sql```
 	* This time we use a table
 	* Create a model called ```fact_trips.sql``` to unify everything
+
+## Tests
+
+* Tests are not necessary, but recommended
+* Test: assumption about our data
+* Tests in dbt are ```SELECT``` statements, that are compiled and return the amount of failing records
+* dbt provides 4 basic tests to check if the column values are unique, not null, accepted values or a foreign key to another table
+* Custom tests can be defined
+* we can run ```dbt test [--select my_model]``` to run the tests
+![tests.png](tests.png)
+
+## Documentation
+
+* descriptions can be added to the .yml file
+
+![documentation.png](documentation.png)
+
+## Deployment
+
+* Run the models we developed in a development environment in a production environment
+* Deployment environment runs against a different schema
+
+![deployment.png](deployment.png)
+
+* dbt cloud includes a scheduler to create jobs to run in production
+
+![deployment2.png](deployment2.png)
+![ci.png](ci.png)
+
+* In the dbt cloud go to environments
+* Create a new (Deployment) environment
+	* Give it a name
+	* Select the branch from the github repository (week4)
+	* Give a dataset (name of schema created in BigQuery)
+* Create a job
+	* select commands
+	* schedule
+	* press "run now" to run it immediately
