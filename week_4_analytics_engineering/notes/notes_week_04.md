@@ -42,7 +42,6 @@
 			* "nouns" (e.g. customer, product)
 		* Also known as star schema
 	
-		![star_schema.png](star_schema.png)
 
 	* Architecture of Dimensional Modeling
 		* Stage Area
@@ -383,6 +382,9 @@ seeds:
 			* We then can create new field by applying formulas, we use ```MONTH(pickup_datetime)``` and save it
 			* We can the use pickup_month as dimension
 			* We create another field: "pickup_year" (```YEAR(pickup_datetime)```) and use this as "breakdown dimension"
+
 * Note that the report made in this folder looks different than in the videos, as it is based on less data
+* The report can be shared similar to othe Google documents
+* The report can be scheduled to be send by e-mail
 
 ![vis.png](vis.png)
