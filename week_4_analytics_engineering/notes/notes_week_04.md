@@ -360,3 +360,29 @@ seeds:
 	* select commands
 	* schedule
 	* press "run now" to run it immediately
+
+# Visualization
+
+* Use Google datastudio (datastudio.google.com)
+* Create a data source:
+	* click on "create"
+	* click on "Data Source"
+	* choose BigQuery
+	* For this example choose the de-zoomcamp project, "production", "fact_trips"
+	* click "connect"
+	* change default aggregations from "sum" to "None", except for "passenger_count"
+	* click "create report"
+		* by default a table is created
+		* we delete this table and create our own report by clicking on "Add a chart"
+		* we can choose a type of chart we want to plot
+		* we can add controls of e.g. the date range shown and much more!
+		* Create a barplot of trips per months
+			* we can create new fields, e.g. "trips per months"
+			* On the right hand side, at the bottom of our data, we click on "add field"
+			* We give it a name: "pickup_month"
+			* We then can create new field by applying formulas, we use ```MONTH(pickup_datetime)``` and save it
+			* We can the use pickup_month as dimension
+			* We create another field: "pickup_year" (```YEAR(pickup_datetime)```) and use this as "breakdown dimension"
+* Note that the report made in this folder looks different than in the videos, as it is based on less data
+
+![vis.png](vis.png)
