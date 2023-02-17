@@ -11,13 +11,13 @@ def fetch(dataset_url: str) -> pd.DataFrame:
     """Read data from web into pandas DataFrame"""
     #if randint(0, 1) > 0:
     #    raise Exception
-    df = pd.read_csv(dataset_url)
+    df = pd.read_csv(dataset_url, engine='pyarrow')
     return df
 
 @task()
 def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
-    """write DataFrame out as parquet file"""
-    path = Path(f"data/{color}/{dataset_file}.csv.gz")
+    """write DataFrame out file"""
+    path = Path(f"../../data/{color}/{dataset_file}.csv.gz")
     gcp_path = Path(f"data/{color}/{dataset_file}.csv.gz")
     df.to_csv(path, compression="gzip")
     return path, gcp_path
@@ -52,7 +52,7 @@ def etl_parent_flow(
 
 if __name__ == '__main__':
     color = "fhv"
-    months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    year = 2019
+    months = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    year = 2020
     etl_parent_flow(months, year, color)
 
