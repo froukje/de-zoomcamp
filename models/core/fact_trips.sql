@@ -1,12 +1,8 @@
 {{ config(materialized='table') }}
 
---select *, 
---'Green' as service_type 
---from {{ ref('stg_green_tripdata') }}
-
 with green_data as (
     select *, 
-            'Green' as service_type 
+        'Green' as service_type 
     from {{ ref('stg_green_tripdata') }}
 ), 
 
@@ -35,8 +31,8 @@ select
     pickup_zone.borough as pickup_borough, 
     pickup_zone.zone as pickup_zone, 
     trips_unioned.dropoff_locationid,
-  --  dropoff_zone.borough as dropoff_borough, 
-  --  dropoff_zone.zone as dropoff_zone,  
+    dropoff_zone.borough as dropoff_borough, 
+    dropoff_zone.zone as dropoff_zone,  
     trips_unioned.pickup_datetime, 
     trips_unioned.dropoff_datetime, 
     trips_unioned.store_and_fwd_flag, 
@@ -48,7 +44,8 @@ select
     trips_unioned.mta_tax, 
     trips_unioned.tip_amount, 
     trips_unioned.tolls_amount, 
---    trips_unioned.improvement_surcharge, 
+    --trips_unioned.ehail_fee, 
+    --trips_unioned.improvement_surcharge, 
     trips_unioned.total_amount, 
     trips_unioned.payment_type, 
     trips_unioned.payment_type_description, 
@@ -56,5 +53,5 @@ select
 from trips_unioned
 inner join dim_zones as pickup_zone
 on trips_unioned.pickup_locationid = pickup_zone.locationid
---inner join dim_zones as dropoff_zone
---on trips_unioned.dropoff_locationid = dropoff_zone.locationid
+inner join dim_zones as dropoff_zone
+on trips_unioned.dropoff_locationid = dropoff_zone.locationid
