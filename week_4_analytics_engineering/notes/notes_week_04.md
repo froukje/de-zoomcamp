@@ -362,7 +362,7 @@ seeds:
 
 # Visualization
 
-* Use Google datastudio (datastudio.google.com)
+* Use Google lookerstudio (lookerstudio.google.com)
 * Create a data source:
 	* click on "create"
 	* click on "Data Source"
