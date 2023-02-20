@@ -48,8 +48,28 @@ The data can ce downloaded using: ```wget https://s3.amazonaws.com/nyc-tlc/trip+
 
 ### Week 4: Analytics Engineering
 
+* Basics of analytics engineering
+* dbt (data build tool)
+* BigQuery and dbt
+* Postgres and dbt
+* dbt models
+* Testing and documenting
+* Deployment to the cloud and locally
+* Visualizing the data with google data studio and metabase
+
 ### Week 5: Batch processing
 
+* Batch processing
+* What is Spark
+* Spark Dataframes
+* Spark SQL
+* Internals: GroupBy and joins
+
 ### Week 6: Streaming
+
+* Introduction to Kafka
+* Schemas (avro)
+* Kafka Streams
+* Kafka Connect and KSQL
 
 ### Week 7, 8 & 9: Project
