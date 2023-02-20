@@ -31,9 +31,9 @@ What is the count of records in the model stg_fhv_tripdata after running all mod
 
 Create a staging model for the fhv data for 2019 and do not add a deduplication step. Run it via the CLI without limits (is_test_run: false). Filter records with pickup time in year 2019.
 
-**Answer:** 118_091_802
+**Answer:** 90_612_674
 ```
-select count(*) from `stoked-mode-375206.dbt_frauke.stg_fhv_tripdata` where extract(year FROM pickup_datetime) in (2019, 2020)
+select count(*) from `stoked-mode-375206.dbt_frauke.stg_fhv_tripdata` where extract(year FROM pickup_datetime) = 2019
 ```
 
 ## Question 4:
@@ -41,9 +41,9 @@ What is the count of records in the model fact_fhv_trips after running all depen
 
 Create a core model for the stg_fhv_tripdata joining with dim_zones. Similar to what we've done in fact_trips, keep only records with known pickup and dropoff locations entries for pickup and dropoff locations. Run it via the CLI without limits (is_test_run: false) and filter records with pickup time in year 2019.
 
-**Answer:** 90_612_674 
+**Answer:** 46_444_348 
 ```
-select count(*) from `stoked-mode-375206.dbt_frauke.stg_fhv_tripdata` where extract(year FROM pickup_datetime) = 2019
+select count(*) from `stoked-mode-375206.dbt_frauke.fact_trips_fhv` where extract(year FROM pickup_datetime) = 2019
 ```
 
 ## Question 5:
