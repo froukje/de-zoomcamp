@@ -68,16 +68,41 @@
 * Forward also port 4040: In new terminal: ssh -L localhost:4040:localhost:4040 froukje@<external-ip>
 	* On localhost:4040, we can see all the spark jobs we executed
 
-* Reading CSV files
-* Partitions
-* Saving data to Parquet for local experiments
-* Spark master ui
+* Download data: High Volume For-Hire Vehicle Trip records for January 2021 from !wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/fhvhv/fhvhv_tripdata_2021-01.csv.gz 
+* unzip
+* Read csv file:
+```
+df = spark.read\
+    .option("header", "true") \
+    .parquet('fhvhv_tripdata_2021-01.csv')
+```
+	* Spark doesn't try to infer types, but reads everything as strings
+	* Save the first 100 rows: ```head -n 101 fhvhv_tripdata_2021-01.csv > head.csv``` and read this file with pandas to check the types. Here also the timetamps are read as integers, the rest id ok
+	* use ```spark.createDataFrame(df_pandas).show()``` to convert a pandas dataframe to a spark dataframe, then types are not all strings any more
+	* Use the output of ```spark.createDataFrame(df_pandas).schema``` to define the types
+	* use this schema to read the data in spark
+* Now save data to parquet
+* We now have one big file, this is not good in spark, so we will break it into multiple files - which are called **partitions** in spark
+* ```df.repartition(24)```
+	* This is a lazy command, it is only applied, when we actually do something
+* ```df.write.parquet('fhvhv/2021/01')``` (this takes a while)  
 
 ## Spark DataFrames
 
+* Read the created parquet files: ```spark.read.parquet("fhvhv/2021/01")```
+* Parquet files remember the types, if we print the schema, we can see the types
+* With ```df.select("pickup_datetime", "dropoff_datetime", "PULocationID", "DOLocationID")``` we can selct certain columns
+* We can use ```.filter()``` to filter data, e.g. ```df.select("pickup_datetime", "dropoff_datetime", "PULocationID", "DOLocationID").filter(df.hvfhs_license_num == 'HV0003').show()```
 * Actions vs transformations
-* Partitions
+	* In sparks commands that are executed immediately are called "transformations" and lazy commands are called "actions"
+	* Examples of transformations: Selecting columns, filtering, ijoins, groupby, ...
+	* Spark creates a chain of lazy transformation until an action is applied
+	* Examples of actions: show, take, head, write, ...
+* Spark is more flexible than SQL
 * Functions and UDFs
+	*  ```from pyspark.sql import functions as F```
+	* We can define custom functions (udf=user defined function)
+		* For that we first define a python function and then convert it with ```F.udf()``` 
 
 ## Spark SQL
 
