@@ -18,3 +18,7 @@ week_2_workflow_orchestration/homework/flows/__pycache__/*
 week_3_data_warehouse/homework/data/*
 week_2_workflow_orchestration/videos/flows/03_deployments/data/*
 week_5_batch_processing/videos/taxi*
+.ssh
+week_5_batch_processing/videos/.ipynb_checkpoints/*
+week_5_batch_processing/videos/data/*
+week_5_batch_processing/videos/fhvhv/*
