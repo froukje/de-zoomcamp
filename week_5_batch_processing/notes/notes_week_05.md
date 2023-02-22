@@ -104,10 +104,19 @@ df = spark.read\
 	* We can define custom functions (udf=user defined function)
 		* For that we first define a python function and then convert it with ```F.udf()``` 
 
+## Download the data
+* The script "download_data.sh contains code to download the taxi data we will use
+* Note, that the data downlodated is already compressed in contrast to the video, so this step is not necessary
+* run ```./download_data.sh green 2021```, ```./download_data.sh yellow 2021```, ```./download_data.sh green 2020```, ```./download_data.sh yellow 2020```
+* We can have a look a look at the data with ```zcat <file> | head -n 10``` (this works like cat, but for zipped files)
+* We can use ```tree data``` to see the structure of the data folder
+* Check the notebook "taxi_schema.ipybn" for defining a schema and converting to paquet
+
 ## Spark SQL
 
-* Temporary tables
-* Some simple queries from week 4
+* see notebook spark_sql.ipynb
+* We can use spark to execute and write files in a DataLake
+* If we can use SQL we should do that, but it's not always possible, then Spark comes in handy 
 
 ## Joins in Spark
 
