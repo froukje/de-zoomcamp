@@ -118,12 +118,39 @@ df = spark.read\
 * We can use spark to execute and write files in a DataLake
 * If we can use SQL we should do that, but it's not always possible, then Spark comes in handy 
 
-## Joins in Spark
+## Spark Internals
+### Spark Cluster
+* Until now: everything locally
+* When we set up spark, we set ```.master("local[*])```
+```
+spark = SparkSession.builder \
+	.master("local[*]") \
+	.appName('test') \
+	.getOrCreate()
+```
+* Usually you create a script (in Python) with some spark code on your Laptop, and additionally you have a spark cluster. On this cluster is the spark master and computers that execute the job
+* Spark Driver:
+	* submits a job to spark Master
+* Master 
+	* Coordinates the jobs
+* Executors
+	* Execute the jobs
+![spark_cluster.png](spark_cluster.png)
 
+
+### GroupBy in Spark
+* How GroupBy works internally
+* Shuffling
+* See notebook ```groupby_join```
+
+### Joins in Spark
+* Joining two large tables
 * Merge sort join
+* Joining one large and one small table
 * Broadcasting
+* See notebook ```groupby_join```
 
-## RDDs
+## Resilient Distributed Datasets (RDDs)
 
 * From DF to RDD
 * map
