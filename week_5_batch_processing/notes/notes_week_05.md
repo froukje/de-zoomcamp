@@ -150,23 +150,87 @@ spark = SparkSession.builder \
 * Broadcasting
 * See notebook ```groupby_join```
 
-## Resilient Distributed Datasets (RDDs)
+## (Optional) Resilient Distributed Datasets (RDDs)
 
-* From DF to RDD
-* map
+* base for distributed computations in spark
+* DataFrames are build on top of RDDs
+* DataFrames: have schema
+* RDDs: collection of objects
+* in a spark DataFrame is a field called "rdd", we cann access this using ```df_green.rdd```
+* ```df_green.rdd.take(5)```and ```df_green.take(5)``` both return a list of rows
+* We can implement SQL queries with RDDs
+```
+rdd = df_green \
+	.select('lpep_pickup_datetime', 'PULocationID', 'total_amount') \
+	.rdd
+```
+* We can filter the data, e.g. with a lambda-function
+```
+rdd.filter(lambda row: False).take(1)
+```
+or with a python function
+```
+start = datetime(year=2020, month=1, day=1)
+def filter_outliers(row):
+	return row.lpep_pickup_datetime >= start
+
+def prepare_for_grouping(row):
+	hour = row.lpep_pickup_datetime.replace(minute=0, second=0, microsecond=0)
+	zone = row.PULocationID
+	
+	amount = row.total_amount
+	count = 1
+	value = (amount, count)
+
+	return (key, value)
+
+def reduce(left_value, right_value):
+	left_amount, left_count = left_value
+	right_amount, right_count = right_value
+
+	output_count = left_amount + right_amount
+	output_count = left_count + right_count
+
+	return (output_amount, output_count)
+
+from collections import namedtuple
+
+RevenueRow = namedtuple('RevenueRow', ['hour', 'zone', 'revenue', 'count'])
+
+def unwrap(row):
+	return RevenuwRow(
+		hour=row[0][0], 
+		zone=row[0][1], 
+		revenue=row[1,][0], 
+		count=row[1],[1])
+
+rdd \
+	.filter(filter_outliers) \
+	.map(prepare_for_grouping) \
+	.reducebyKey(calculate_revenue) \
+	.map(unwrap) \
+	.toDF() \
+	.show()
+```
+* filter is a function that returns True or False
+* map is applied to every element of the rdd
 * reduce
 * mapPartition
 * From RDD to DF
 
-## Spark Internals
-
-* Driver, master and executors
-* Partitioning & coalesce
-* Shuffling
-* Groupby or not groupby?
-* Broadcasting
-
 ## Spark & Docker
+* Copy parquet files to Google cloud
+	* In terminal, in folder ```data```: ```gsutil -m cp -r pq/ gs://<bucket-name>/pq```
+	* The option ```-m``` makes that all cpus are used
+	* If not already done, authenticate gcloud via cli:
+		* ```export GOOGLE_APPLICATION_CREDENTIALS=<service-account-key>.json```
+		* ```gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS```
+* Tell spark how to connect to Google cloud, for that we need to download the Cloud Storage Connector for Hadoop
+	* https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage#clusters
+	* Go to "Cloud Storage connector for Hadoop 3.x"
+	* Copy .jar file: ```gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-latest.jar gcs-connector-hadoop3-latest.jar```	
+	* See notebook ```spark_gcs``` to see how to connect 
+
 
 ## Running Spark in the Cloud (GCP)
 
