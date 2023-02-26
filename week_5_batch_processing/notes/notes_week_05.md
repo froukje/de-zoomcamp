@@ -218,7 +218,8 @@ rdd \
 * mapPartition
 * From RDD to DF
 
-## Spark & Docker
+## Running Spark in the Cloud (GCP)
+* https://cloud.google.com/solutions/spark
 * Copy parquet files to Google cloud
 	* In terminal, in folder ```data```: ```gsutil -m cp -r pq/ gs://<bucket-name>/pq```
 	* The option ```-m``` makes that all cpus are used
@@ -231,13 +232,56 @@ rdd \
 	* Copy .jar file: ```gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-latest.jar gcs-connector-hadoop3-latest.jar```	
 	* See notebook ```spark_gcs``` to see how to connect 
 
+## Creating a Local Spark Cluster
 
-## Running Spark in the Cloud (GCP)
+* create a spark cluster outside the notebook
+* follow the instructions from "https://spark.apache.org/docs/latest/spark-standalone.html"
+	* "starting-a-cluster-manually" (https://spark.apache.org/docs/latest/spark-standalone.html#starting-a-cluster-manually)
+	* We can start a standalone cluster by executing ```./sbin/start-master.sh``` 
+	* Move to folder where spark was installed, can be shown by ```echo $SPARK_HOME``` ("/home/froukje/spark/spark-3.2.3-bin-hadoop3.2") 
+	* Run ```./sbin/start-master.sh```
+	* The URL on the master’s web UI is http://localhost:8080 by default
+	* Forward port 8080 to see it (in new terminal connect via ```ssh -i ~/.ssh/gcp -L localhost:8080:localhost:8080 <user-name>@<external-ip>```
+* connect to cluster using
+```
+spark = SparkSession.builder \
+    .master("spark://de-zoomcamp.europe-west1-b.c.stoked-mode-375206.internal:7077") \
+    .appName('test') \
+    .getOrCreate()
+```
+* To be able to execute tasks we also need to create workers (until now we only created a master)
+* To start a worker run ```./sbin/start-worker.sh <master-spark-url>``` in the $SPARK_HOME folder ("./sbin/start-worker.sh spark://de-zoomcamp.europe-west1-b.c.stoked-mode-375206.internal:7077")
+![spark_cluster2.png](spark_cluster2.png)
+* Turn the noebook into a script
+	* ```jupyter nbconvert --to=script spark_local_spark_cluster.ipynb to script```
+* execute the script:
+```
+export PYTHONPATH="${SPARK_HOME}/python/:$PYTHONPATH"
+export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH"
+python3 spark_local_spark_cluster.py
+```
+* Before doing this, we have to remove our first application (the notebook), because otherwise the script doesn't have resources
+* Use argparse to make the script configurable
+* The script can then be executed using ```python3 spark_local_spark_cluster.py --input_green=data/green/2020/* --input_yellow=data/yellow/2020/* --output=data/report-2020```
+* Improve the hard coded spark-master url for submitting spark jobs with "spark-submit"
+	* The url is then not defined in the python script, but outside
+	* spark-submit is a script that comes with spark
+	```
+	$URL="spark://de-zoomcamp.europe-west1-b.c.stoked-mode-375206.internal:7077"
+	spark-submit \
+	  --master="${URL}" \
+	  spark_local_spark_cluster.py \
+		--input_green=data/green/2020/* \
+		--input_yellow=data/yellow/2020/* \
+		--output=data/report-2020
+	```
+* After finishing the master and the workers need to be stopped
+* In the $SPARK_HOME folder run ```./sbin/stop-master.sh```and ```sbin/stop-worker.sh```
 
-* https://cloud.google.com/solutions/spark
+## Setting up a Dataproc Cluster
 
-## Connecting Spark to a DWH
-
-* Spark with BigQuery (Athena/presto/hive/etc - similar)
-* Reading from GCP and saving to BG
+* Create a cluster in Google cloud
+* Creating a cluster
+* Running a spark job with Dataproc 
+* Submitting the job with the cloud SDK
 
