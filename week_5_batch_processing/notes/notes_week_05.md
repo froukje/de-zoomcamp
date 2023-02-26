@@ -281,7 +281,39 @@ python3 spark_local_spark_cluster.py
 ## Setting up a Dataproc Cluster
 
 * Create a cluster in Google cloud
+* Dataproc is a service from oogle cloud
+* Go to Goole cloud console and sear for "Dataproc"
+* When you run it for the first time, you have to enable the API
+* Then click on "CREAT CLUSTER"
+	* Give it a name
+	* Choose a region (same as the bucket has)
+	* Choose a cluster type. Ususally you would choose "standard": 1 master, multiple workers, for our case single node is enough
+	* Choose optional components: "Jupyter-Notebook", "Docker"
+	* "CREATE" the cluster
+	* This creates a new VM
+	* Go to the cluster and click on it, there you find a buttom "SUBMIT JOB"
+	* Click on it, choose "Job type": PySpark
+	* Next, the main python file has to be selected, for that our scrit needs to be uploaded. We can use the already created bucket for that.
+	* Create a new folder called "code" and upload the file there (in practice you would have a separate bucket for the code)
+	* In the terminal go to the folder where the script is stored and copy it to the bucket ```gsutil cp <filename> gs://<bucket-name>/<location>/<filename>``` (```gsutil cp spark_local_spark_cluster.py gs://de-spark-frauke/code/spark_local_spark_cluster.py```)
+	* Then choose as "Main python script": gs://<bucket-name>/<location>/<filename>
+	* We have to specify Arguments: 
 * Creating a cluster
-* Running a spark job with Dataproc 
-* Submitting the job with the cloud SDK
-
+	```--input_green=gs://<bucket-name>/pq/green/2020/*```
+	```--input_yellow=gs://<bucket-name>/pq/yellow/2020/*```
+	```--output=gs://<bucket-name>/report-2020```
+	* Click "SUBMIT"
+* We now used the web ui to submit a job
+	* we can also use the Google Cloud SDK or the REST API
+* See documentation: https://cloud.google.com/dataproc/docs/guides/submit-job#dataproc-submit-job-gcloud 
+```
+gcloud dataproc jobs submit pyspark \
+	--cluster=<custername> \
+	--region=<region> \
+	gs://<bucket-name>/<location>/<filename> \
+	-- \
+	--input_green=gs://<bucket-name>/pq/green/2020/* \
+        --input_yellow=gs://<bucket-name>/pq/yellow/2020/* \
+        --output=gs://<bucket-name>/report-2020
+```
+* Add to the service account the role "Dataproc Administrator" bfore running this
